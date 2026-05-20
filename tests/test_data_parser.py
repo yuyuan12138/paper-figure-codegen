@@ -1,9 +1,7 @@
 import numpy as np
 import pandas as pd
-import pytest
 
 from paper_figure_codegen.core.data_parser import DataParser
-from paper_figure_codegen.core.data_spec import FigureDataSpec
 
 
 class TestDataParserDictOfLists:

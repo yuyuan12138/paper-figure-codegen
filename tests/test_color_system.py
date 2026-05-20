@@ -1,4 +1,3 @@
-import pytest
 
 from paper_figure_codegen.core.color_system import (
     PAPER_PALETTE,

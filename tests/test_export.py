@@ -1,7 +1,6 @@
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import pytest
 
 from paper_figure_codegen.export import save_figure
 

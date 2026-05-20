@@ -1,5 +1,4 @@
 import numpy as np
-import pytest
 
 from paper_figure_codegen.core.data_spec import (
     DATA_KINDS,

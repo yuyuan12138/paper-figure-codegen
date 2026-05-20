@@ -4,7 +4,6 @@ import matplotlib
 matplotlib.use("Agg")
 
 import numpy as np
-import pytest
 
 from paper_figure_codegen.core.data_spec import FigureDataSpec
 from paper_figure_codegen.recipes import get_recipe

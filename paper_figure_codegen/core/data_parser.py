@@ -5,7 +5,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from paper_figure_codegen.core.data_spec import FigureDataSpec, DATA_KINDS
+from paper_figure_codegen.core.data_spec import FigureDataSpec
 
 
 class DataParser:
@@ -134,7 +134,7 @@ class DataParser:
             return False
         first = df[df.columns[0]].dtype
         second = df[df.columns[1]].dtype
-        is_string = first == object or str(first) == "string" or first.kind == "O" or first.kind == "U"
+        is_string = first.kind in ("O", "U")
         return is_string and np.issubdtype(second, np.number)
 
     @staticmethod
@@ -143,7 +143,7 @@ class DataParser:
             return False
         first = df[df.columns[0]].dtype
         rest_dtypes = [df[c].dtype for c in df.columns[1:]]
-        is_string = first == object or str(first) == "string" or first.kind == "O" or first.kind == "U"
+        is_string = first.kind in ("O", "U")
 
         # Check if all rest columns are numeric (handle string dtypes gracefully)
         all_numeric = True

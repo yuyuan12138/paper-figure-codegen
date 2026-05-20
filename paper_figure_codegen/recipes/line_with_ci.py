@@ -1,11 +1,10 @@
 """Line plot with confidence interval recipe — time series with uncertainty bands."""
 
 import os
-from typing import List
 
 from jinja2 import Environment, FileSystemLoader
 
-from paper_figure_codegen.core.color_system import PAPER_PALETTE, get_palette
+from paper_figure_codegen.core.color_system import get_palette
 from paper_figure_codegen.core.data_spec import FigureDataSpec
 from paper_figure_codegen.recipes.base import BaseRecipe
 
@@ -53,7 +52,7 @@ class Recipe(BaseRecipe):
             rows = []
             for i, name in enumerate(series_names):
                 row_vals = ", ".join(f"{v:.4f}" for v in vals[i])
-                rows.append(f'        "{name}": {'[' + row_vals + ']'},')
+                rows.append('        "' + name + '": [' + row_vals + '],')
             series_str = ", ".join(f'"{s}"' for s in series_names)
             return (
                 "\n"

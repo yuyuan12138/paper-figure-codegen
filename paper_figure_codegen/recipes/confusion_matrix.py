@@ -1,11 +1,9 @@
 """Confusion matrix recipe — classification performance visualization."""
 
 import os
-from typing import List
 
 from jinja2 import Environment, FileSystemLoader
 
-from paper_figure_codegen.core.color_system import PAPER_PALETTE, get_palette
 from paper_figure_codegen.core.data_spec import FigureDataSpec
 from paper_figure_codegen.recipes.base import BaseRecipe
 

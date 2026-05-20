@@ -3,7 +3,6 @@
 from typing import List, Union
 
 import matplotlib.pyplot as plt
-import numpy as np
 
 PAPER_PALETTE = {
     "blue_main": "#5B8DB8",

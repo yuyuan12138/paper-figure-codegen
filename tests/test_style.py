@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import pytest
 
 from paper_figure_codegen.core.style import apply_paper_style
 
