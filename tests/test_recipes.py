@@ -380,3 +380,162 @@ class TestMultiPanelRecipe:
         namespace = {}
         exec(code, namespace)
         namespace["main"]()
+
+
+# ===== V2 Recipe Test Helpers =====
+
+
+def _make_eeg_spec():
+    return FigureDataSpec(
+        raw_input_type="dataframe",
+        data_kind="eeg_channel_table",
+        labels=["Fp1", "Fp2", "F3", "F4", "C3", "C4"],
+        values=np.array([0.21, 0.18, 0.15, 0.16, 0.12, 0.11]),
+        metadata={"x": [-0.3, 0.3, -0.4, 0.4, -0.2, 0.2], "y": [0.8, 0.8, 0.5, 0.5, 0.2, 0.2]},
+        suggested_plot_types=["eeg_topomap"],
+    )
+
+
+def _make_permutation_spec():
+    return FigureDataSpec(
+        raw_input_type="array",
+        data_kind="single_series",
+        values=np.concatenate([[0.65], np.random.normal(0.50, 0.08, 100)]),
+        suggested_plot_types=["permutation_test"],
+    )
+
+
+# ===== V2 Recipe Test Classes =====
+
+
+class TestRadarRecipe:
+    def test_generate_code(self):
+        recipe = get_recipe("radar")
+        code = recipe.generate_code(_make_wide_spec())
+        assert "def main():" in code
+        assert "PAPER_PALETTE" in code
+        assert "projection" in code
+        assert "polar" in code
+
+    def test_executable(self):
+        recipe = get_recipe("radar")
+        code = recipe.generate_code(_make_wide_spec())
+        namespace = {}
+        exec(code, namespace)
+        namespace["main"]()
+
+
+class TestTernaryRecipe:
+    def test_generate_code(self):
+        recipe = get_recipe("ternary")
+        spec = FigureDataSpec(
+            raw_input_type="dataframe",
+            data_kind="wide_dataframe",
+            groups=["A", "B", "C"],
+            values=np.array([[0.6, 0.3, 0.1], [0.2, 0.5, 0.3], [0.15, 0.25, 0.6]]),
+            suggested_plot_types=["ternary"],
+        )
+        code = recipe.generate_code(spec)
+        assert "def main():" in code
+        assert "PAPER_PALETTE" in code
+        assert "ternary_to_xy" in code
+
+    def test_executable(self):
+        recipe = get_recipe("ternary")
+        spec = FigureDataSpec(
+            raw_input_type="dataframe",
+            data_kind="wide_dataframe",
+            groups=["A", "B", "C"],
+            values=np.array([[0.6, 0.3, 0.1], [0.2, 0.5, 0.3], [0.15, 0.25, 0.6]]),
+            suggested_plot_types=["ternary"],
+        )
+        code = recipe.generate_code(spec)
+        namespace = {}
+        exec(code, namespace)
+        namespace["main"]()
+
+
+class TestEEGTopomapRecipe:
+    def test_generate_code(self):
+        recipe = get_recipe("eeg_topomap")
+        code = recipe.generate_code(_make_eeg_spec())
+        assert "def main():" in code
+        assert "PAPER_PALETTE" in code
+        assert "HAS_MNE" in code
+
+    def test_executable(self):
+        recipe = get_recipe("eeg_topomap")
+        code = recipe.generate_code(_make_eeg_spec())
+        namespace = {}
+        exec(code, namespace)
+        namespace["main"]()
+
+
+class TestPermutationTestRecipe:
+    def test_generate_code(self):
+        recipe = get_recipe("permutation_test")
+        code = recipe.generate_code(_make_permutation_spec())
+        assert "def main():" in code
+        assert "PAPER_PALETTE" in code
+        assert "null_distribution" in code
+        assert "observed_statistic" in code
+
+    def test_executable(self):
+        recipe = get_recipe("permutation_test")
+        code = recipe.generate_code(_make_permutation_spec())
+        namespace = {}
+        exec(code, namespace)
+        namespace["main"]()
+
+
+class TestRaincloudRecipe:
+    def test_generate_code(self):
+        recipe = get_recipe("raincloud")
+        code = recipe.generate_code(_make_multi_series_spec())
+        assert "def main():" in code
+        assert "PAPER_PALETTE" in code
+        assert "violin" in code or "kde" in code
+
+    def test_executable(self):
+        recipe = get_recipe("raincloud")
+        code = recipe.generate_code(_make_multi_series_spec())
+        namespace = {}
+        exec(code, namespace)
+        namespace["main"]()
+
+
+class TestFlowchartCompositeRecipe:
+    def test_generate_code(self):
+        recipe = get_recipe("flowchart_composite")
+        # Create a spec matching the recipe's expected format
+        spec = FigureDataSpec(
+            raw_input_type="dict_of_lists",
+            data_kind="multi_panel_spec",
+            groups=["Method Overview", "Training Loss", "Accuracy", "Inference Time"],
+            values=np.array([0.0, 0.85, 0.72, 0.58, 0.45, 0.35, 0.28, 0.22, 0.18,
+                            0.65, 0.72, 0.78, 0.82, 0.85, 0.87, 0.88, 0.89,
+                            12.5, 8.3, 5.2, 3.8, 2.9, 2.4, 2.1, 1.9]),
+            suggested_plot_types=["flowchart_composite"],
+        )
+        code = recipe.generate_code(spec)
+        assert "def main():" in code
+        assert "PAPER_PALETTE" in code
+        assert "GridSpec" in code
+        assert "Rectangle" in code or "FancyArrowPatch" in code
+
+    def test_executable(self):
+        recipe = get_recipe("flowchart_composite")
+        # Create a spec matching the recipe's expected format
+        spec = FigureDataSpec(
+            raw_input_type="dict_of_lists",
+            data_kind="multi_panel_spec",
+            groups=["Method Overview", "Training Loss", "Accuracy", "Inference Time"],
+            values=np.array([0.0, 0.85, 0.72, 0.58, 0.45, 0.35, 0.28, 0.22, 0.18,
+                            0.65, 0.72, 0.78, 0.82, 0.85, 0.87, 0.88, 0.89,
+                            12.5, 8.3, 5.2, 3.8, 2.9, 2.4, 2.1, 1.9]),
+            suggested_plot_types=["flowchart_composite"],
+        )
+        code = recipe.generate_code(spec)
+        namespace = {}
+        exec(code, namespace)
+        namespace["main"]()
