@@ -1,0 +1,1 @@
+"""Core modules for data parsing, color system, and style."""
