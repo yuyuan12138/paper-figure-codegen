@@ -1,2 +1,0 @@
-[console_scripts]
-paper-figure = paper_figure_codegen.cli:cli

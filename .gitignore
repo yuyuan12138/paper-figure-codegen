@@ -11,3 +11,5 @@ outputs/
 *.egg
 .venv/
 uv.lock
+.claude/
+*.DS_Store
