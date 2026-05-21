@@ -30,16 +30,16 @@ def apply_paper_style(font_size=12):
     })
 
 def load_data():
-    np.random.seed(42)
-    group_a = np.random.normal(0.62, 0.10, 35)
-    group_b = np.random.normal(0.82, 0.08, 35)
+    np.random.seed(7)
+    group_a = np.random.normal(0.69, 0.12, 15)
+    group_b = np.random.normal(0.78, 0.12, 15)
     observed_diff = group_b.mean() - group_a.mean()
     n_permutations = 5000
     combined = np.concatenate([group_a, group_b])
     null_dist = np.zeros(n_permutations)
     for i in range(n_permutations):
         perm = np.random.permutation(combined)
-        null_dist[i] = perm[:35].mean() - perm[35:].mean()
+        null_dist[i] = perm[:15].mean() - perm[15:].mean()
     p_value = (np.abs(null_dist) >= np.abs(observed_diff)).mean()
     return observed_diff, null_dist, p_value
 
