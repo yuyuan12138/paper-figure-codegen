@@ -31,15 +31,15 @@ def apply_paper_style(font_size=12):
 
 def load_data():
     np.random.seed(42)
-    group_a = np.random.normal(0.72, 0.08, 30)
-    group_b = np.random.normal(0.78, 0.07, 30)
+    group_a = np.random.normal(0.62, 0.10, 35)
+    group_b = np.random.normal(0.82, 0.08, 35)
     observed_diff = group_b.mean() - group_a.mean()
     n_permutations = 5000
     combined = np.concatenate([group_a, group_b])
     null_dist = np.zeros(n_permutations)
     for i in range(n_permutations):
         perm = np.random.permutation(combined)
-        null_dist[i] = perm[:30].mean() - perm[30:].mean()
+        null_dist[i] = perm[:35].mean() - perm[35:].mean()
     p_value = (np.abs(null_dist) >= np.abs(observed_diff)).mean()
     return observed_diff, null_dist, p_value
 
@@ -53,25 +53,47 @@ def plot_figure(data):
 
     fig, ax = plt.subplots(figsize=(7, 4.5))
 
-    ax.hist(null_dist, bins=50, density=True, color="#5B8DB8", alpha=0.6,
-            edgecolor="white", linewidth=0.5, label="Null Distribution")
+    # Histogram for null distribution
+    counts, bin_edges, _ = ax.hist(
+        null_dist, bins=50, density=True, color="#5B8DB8", alpha=0.5,
+        edgecolor="white", linewidth=0.5, label="Null Distribution",
+    )
 
+    # Highlight rejection regions (both tails)
+    for i in range(len(counts)):
+        if bin_edges[i] >= observed_diff or bin_edges[i+1] <= -observed_diff:
+            ax.bar(
+                (bin_edges[i] + bin_edges[i+1]) / 2, counts[i],
+                width=bin_edges[i+1] - bin_edges[i],
+                color="#D99A5E", alpha=0.6, edgecolor="white", linewidth=0.5,
+            )
+
+    # Smooth KDE overlay for null distribution
+    try:
+        from scipy.stats import gaussian_kde
+        kde = gaussian_kde(null_dist)
+        x_grid = np.linspace(null_dist.min() - 0.02, null_dist.max() + 0.02, 300)
+        ax.plot(x_grid, kde(x_grid), color="#3E6F95", linewidth=1.5, alpha=0.8)
+    except ImportError:
+        pass
+
+    # Observed statistic line
     ax.axvline(observed_diff, color="#D99A5E", linewidth=2.0, linestyle="--",
-               label=f"Observed ({observed_diff:.3f})")
+               label=f"Observed Δ = {observed_diff:.3f}")
     ax.axvline(-observed_diff, color="#D99A5E", linewidth=2.0, linestyle="--")
 
-    extreme = null_dist[np.abs(null_dist) >= np.abs(observed_diff)]
-    if len(extreme) > 0:
-        ax.hist(extreme, bins=50, density=True, color="#D99A5E", alpha=0.4,
-                edgecolor="white", linewidth=0.5)
+    # Annotation box
+    ax.annotate(
+        f"p = {p_value:.4f}",
+        xy=(0.95, 0.90), xycoords="axes fraction",
+        ha="right", fontsize=11, fontweight="bold",
+        bbox=dict(boxstyle="round,pad=0.4", facecolor="#F3E6B3", edgecolor="#D99A5E",
+                  alpha=0.9, linewidth=1.2),
+    )
 
-    ax.annotate(f"p = {p_value:.4f}", xy=(0.95, 0.92), xycoords="axes fraction",
-               ha="right", fontsize=10, fontweight="bold",
-               bbox=dict(boxstyle="round,pad=0.3", facecolor="#F3E6B3", alpha=0.8))
-
-    ax.set_xlabel("Difference in Means")
+    ax.set_xlabel("Difference in Means (Group B − Group A)")
     ax.set_ylabel("Density")
-    ax.set_title("Permutation Test: Distribution of Test Statistic Under H0")
+    ax.set_title("Permutation Test: Null Distribution vs. Observed Statistic")
     ax.legend(loc="upper left")
     ax.grid(linestyle="--", linewidth=0.6, alpha=0.35)
 
