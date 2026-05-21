@@ -9,6 +9,41 @@ Generate publication-quality Python matplotlib code for scientific figures. Dual
 - **Ready-to-run code**: Every generated script includes data loading, validation, plotting, and export (PNG/PDF/SVG)
 - **CLI and Python API**: Use from command line or import in your scripts
 
+## Gallery
+
+<table>
+<tr>
+<td align="center"><b>Grouped Bar</b><br/>Model x metric comparison<br/><img src="docs/figures/figure_grouped_bar.png" width="280"/></td>
+<td align="center"><b>Stacked Bar</b><br/>Category composition<br/><img src="docs/figures/figure_stacked_bar.png" width="280"/></td>
+<td align="center"><b>Horizontal Bar</b><br/>Feature importance, ranking<br/><img src="docs/figures/figure_horizontal_bar.png" width="280"/></td>
+</tr>
+<tr>
+<td align="center"><b>Line with CI</b><br/>Learning curves, trends<br/><img src="docs/figures/figure_line_with_ci.png" width="280"/></td>
+<td align="center"><b>Violin + Box + Scatter</b><br/>Distribution comparison<br/><img src="docs/figures/figure_violin_box_scatter.png" width="280"/></td>
+<td align="center"><b>Boxplot</b><br/>Simple distribution<br/><img src="docs/figures/figure_boxplot.png" width="280"/></td>
+</tr>
+<tr>
+<td align="center"><b>Histogram + KDE</b><br/>Single variable shape<br/><img src="docs/figures/figure_histogram_kde.png" width="280"/></td>
+<td align="center"><b>Heatmap</b><br/>Correlation, importance matrices<br/><img src="docs/figures/figure_heatmap.png" width="280"/></td>
+<td align="center"><b>Confusion Matrix</b><br/>Classification results<br/><img src="docs/figures/figure_confusion_matrix.png" width="280"/></td>
+</tr>
+<tr>
+<td align="center"><b>Scatter + Regression</b><br/>Variable relationships<br/><img src="docs/figures/figure_scatter_regression.png" width="280"/></td>
+<td align="center"><b>Multi-Panel</b><br/>Composite paper figures<br/><img src="docs/figures/figure_multi_panel.png" width="280"/></td>
+<td align="center"><b>Radar</b><br/>Multi-metric profiles<br/><img src="docs/figures/figure_radar.png" width="280"/></td>
+</tr>
+<tr>
+<td align="center"><b>Ternary</b><br/>Three-component compositions<br/><img src="docs/figures/figure_ternary.png" width="280"/></td>
+<td align="center"><b>EEG Topomap</b><br/>Channel importance<br/><img src="docs/figures/figure_eeg_topomap.png" width="280"/></td>
+<td align="center"><b>Permutation Test</b><br/>Statistical test visualization<br/><img src="docs/figures/figure_permutation_test.png" width="280"/></td>
+</tr>
+<tr>
+<td align="center"><b>Raincloud</b><br/>Enhanced distribution<br/><img src="docs/figures/figure_raincloud.png" width="280"/></td>
+<td align="center"><b>Flowchart Composite</b><br/>Method flow + results<br/><img src="docs/figures/figure_flowchart_composite.png" width="280"/></td>
+<td></td>
+</tr>
+</table>
+
 ## Quick Start
 
 ### Install

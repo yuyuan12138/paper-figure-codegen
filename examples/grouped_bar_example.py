@@ -15,12 +15,12 @@ import matplotlib.pyplot as plt
 # Config
 # =========================
 
-OUTPUT_DIR = Path("outputs")
+OUTPUT_DIR = Path("docs/figures")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 FIG_NAME = "figure_grouped_bar"
-SAVE_FORMATS = ["png", "pdf", "svg"]
-DPI = 300
+SAVE_FORMATS = ["png"]
+DPI = 150
 
 
 # =========================
